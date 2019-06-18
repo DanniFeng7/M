@@ -1,0 +1,118 @@
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <style>
+    td {
+      height: 3em;
+      width: 10em;
+      text-align: center;
+      border: 1px solid;
+      background-color: rgb(141, 199, 216);
+    }
+    td.obj:hover {
+      position: relative;
+      top: 2px;
+      left: 2px;
+      box-shadow: 10px 10px 8px rgb(91, 110, 117)
+    }
+    .cell {
+      height: 3em;
+      width: 10em;
+    }
+    .cell>.detail {
+      display: none;
+    }
+    .cell>.detail.open {
+      display: block;
+      position: absolute;
+      height: 12em;
+      width: 25em;
+      background-color: rgb(136, 168, 194);
+      -webkit-border-radius: 15px;
+    }
+    td.a {
+      background-color: rgb(141, 192, 235);
+      
+    }
+    p {
+      font-size: 25px;
+      font-weight: 1000;
+      text-align: center;
+    }
+    #grid {
+      border: 1px solid;
+      margin: auto auto auto auto;
+    }
+    .day {
+      height: 3em;
+      width: 10em;
+    }
+    .time {
+      height: 3em;
+      width: 10em;
+    }
+  </style>
+</head>
+
+<body>
+  <p> 信息1701课程表
+  </p>
+  <table id="grid">
+  </table>
+  <script>
+    let timetable = new Array('', '周一', '周二', '周三', '周四', '周五', '第一大节<br/>8:20-10:00', 'Web应用开发技术', '西方文化简史',
+      '管理信息系统', '运营管理', '', '第二大节<br/>10:20-12:00', '毛泽东思想与中国特色社会主义理论体系概论', '管理科学基础',
+      '毛泽东思想与中国特色社会主义理论体系概论', '管理科学基础', '运营管理', '第三大节<br/>14:00-15:40', '管理信息系统', '', '会计学', '体育',
+      '毛泽东思想与中国特色社会主义理论体系概论', '第四大节<br/>16:00-17:40', '电子商务', '数据库原理及运用', '', '会计学', '');
+    let detailtime = new Array('1', '2', '3', '4', '5', '6', '7', '西区第一公共教学楼C411<br/>任课教师：吕成功<br/> 周数：1~15周',
+      '西区第一公共教学楼C311<br/>任课教师：张金柱 <br/>周数：1~17周', '西区第一公共教学楼C105<br/>任课教师：刘烨<br/> 周数：1~15周',
+      '西区第一公共教学楼B405<br/>任课教师：刘亮<br/> 周数：1~15周', ' ', '15', '西区第一公共教学楼A120<br/> 任课教师：顾洪英<br/> 周数：1~16周',
+      '西区第一公共教学楼C411<br/>任课教师：赵方方 <br/>周数：3~17周', '西区第一公共教学楼A120<br/>任课教师：顾洪英<br/> 周数：1~16周',
+      '西区第一公共教学楼C411<br/> 任课教师：赵方方 <br/>周数：3~17周', '西区第一公共教学楼B405 <br/>任课教师：刘亮<br/> 周数：1~15周',
+      '25', '西区第一公共教学楼C105<br/>任课教师：刘烨 <br/>周数：1~15周', ' ', '西区第一公共教学楼B101 <br/>任课教师：姜红 <br/>周数：1~17周', '羽毛球馆',
+      '西区第一公共教学楼A120<br/> 任课教师：顾洪英<br/> 周数：1~16周', '31', '西区第一公共教学楼B303<br/> 任课教师：张亮<br/> 周数：3~17周', '西区第一公共教学楼C109 <br/>任课教师：吴君<br/> 周数：1~15周', '  ',
+      '西区第一公共教学楼B101<br/> 任课教师：姜红 <br/>周数：1~17周', '  ');
+    let tblEl = document.getElementById('grid');
+    for (let i = 0; i < 5; i++) {
+      let trEl = document.createElement('tr');
+      for (let j = 0; j < 6; j++)  {
+        let tdEl = document.createElement('td');
+        let divEl = document.createElement('div')
+        divEl.className = 'cell';                
+        let detailDivEl = document.createElement('div');
+        if (i != 0 && ((6 * i + j) % 6) != 0) 
+         {
+          detailDivEl.className = 'detail';
+          detailDivEl.innerHTML = detailtime[6 * i + j];
+         };
+        tdEl.onclick = function (event)  
+        {
+          let names = detailDivEl.className.split(' ');
+          names.push('open');
+          detailDivEl.className = names.join(' ');
+        }
+        detailDivEl.onmouseout = function (event)  {
+          let names = detailDivEl.className.split(' ');
+          names = names.filter((x) => x != 'open')
+          detailDivEl.className = names.join(' ');
+        }
+        divEl.append(detailDivEl);
+        let briefDivEl = document.createElement('div');
+        briefDivEl.innerHTML = timetable[6 * i + j];
+        divEl.append(briefDivEl);
+        let classNames = [];
+        if (i != 0 && (8 * i + j) % 8 != 0) classNames.push('obj', 'a');
+        if (i == 0) classNames.push('day');
+        if ((8 * i + j) % 8 == 0) classNames.push('time');
+        tdEl.className = classNames.join(' ');
+        tdEl.append(divEl);
+        trEl.append(tdEl);
+      }
+      tblEl.append(trEl);
+    }
+  </script>
+</body>
+
+
+</html>
